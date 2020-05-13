@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroupBuy/proudcts</title>
+    <link rel="stylesheet" href="style.css">
+    <!--<script type="text/javascript" src="products.json"></script>    -->
+    <script type="text/javascript" src="main.js"></script>
+</head>
+<body onload="fillTable()">
+    <ul id="navbar">
+        <li><a href="../frontend/index.html">Home</a></li>
+        <li><a href="../frontend/product.html">Catalog</a></li>
+    </ul>
+    <div class="container"> 
+        <div id="contact">
+            <h3>Catalog</h3>
+            <Table>
+                <TR>
+                    <TD>Name</TD>
+                    <TD>Price</TD>
+                </TR>
+            </Table>
+            <Table id="productTable">
+            </Table>
+            <br>
+            <form action="../frontend/update.html">       
+                <button name="update" type="submit" id="contact-submit">Update Catalog</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

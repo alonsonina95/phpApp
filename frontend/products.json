@@ -1,0 +1,7 @@
+{
+    "list": [
+        {"name": "box", "price": 10.00},
+        {"name": "ball", "price": 8.52},
+        {"name": "plane", "price": 3.96}
+    ]
+}

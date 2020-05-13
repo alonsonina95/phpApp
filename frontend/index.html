@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroupBuy</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script defer language="Javascript" type="text/javascript" src="main.js"></script>
+</head>
+<style>
+    /* Modal starts here */
+    #myModal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 28%;
+        border-radius: 17px;
+    }
+
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    #textShown {
+        color: orange;
+        font-size: 35px;
+        text-align: center;
+    }
+</style>
+
+<body onload="fillTable()">
+    <ul id="navbar">
+        <li><a href="../frontend/index.html">Home</a></li>
+        <!--<li><a href="../frontend/product.html">Catalog</a></li>-->
+    </ul>
+    <div class="container" id="updatebox">
+        <div id="contact">
+            <h3>Catalog</h3>
+            <Table>
+                <TR>
+                    <TD>Name</TD>
+                    <TD>Price</TD>
+                </TR>
+            </Table>
+            <Table id="productTable" class="selectable">
+            </Table>
+        </div>
+        <div id="flexspace"></div>
+        <div id="contact">
+            <h3>Cart</h3>
+            <Table id="cartTable">
+            </Table>
+            <p id="cartTotal">Total: $0</p>
+        </div>
+        <div id="flexspace"></div>
+        <div id=contact>
+            <form action="" method="post" name="transaction">
+                <h3>Checkout</h3>
+                <fieldset>
+                    <input placeholder="Your name" name="customerName" type="text" tabindex="1" required autofocus>
+                </fieldset>
+                <fieldset>
+                    <input placeholder="Your Email Address" name="customerEmail" type="email" tabindex="2" required>
+                </fieldset>
+                <fieldset>
+                    <input placeholder="Your Phone Number" name="phoneNumber" type="tel" tabindex="3" required>
+                </fieldset>
+                <fieldset>
+                    <fieldset>
+                        <input placeholder="Card Information" name="16digitsCreditCard" type="tel" tabindex="4"
+                            required>
+                    </fieldset>
+                    <fieldset>
+                        <label style="padding-right: 5px;">Expiration Date</label></t><input
+                            placeholder="Expiration Date" name="ExpirationDate" type="date" tabindex="5" required>
+                    </fieldset>
+                    <fieldset>
+                        <input placeholder="CVC" type="tel" name="cvc" tabindex="6" required>
+                    </fieldset>
+                    <fieldset>
+                        <input id="coupon" placeholder="Coupon" type="text" name="discountCode" tabindex="7">
+                    </fieldset>
+                    <button name="submit" type="submit" id="contact-submit" data-submit="...Sending"
+                        onclick="()=>create_transaction(document.forms.transaction)">Submit</button>
+                </fieldset>
+                <input type="number" hidden name="productId" id="productId">
+            </form>
+            <button name="valid" type="submit" id="check-coupon" onClick="checkDiscountCode()">Check Coupon</button>
+            <button name="valid" type="submit" id="codeButton" onClick="requestCode(this)">Request Code</button>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content" id="modalContent">
+            <span class="close">&times;</span>
+            <p id="textShown">Some text in the Modal..</p>
+        </div>
+    </div>
+
+    <script>
+        function checkDiscountCode() {
+            var modal = document.getElementById("myModal");
+            var coupon = document.getElementById("coupon").value;
+            var span = document.getElementsByClassName("close")[0];
+            var modalContent = document.getElementById("modalContent");
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            if (coupon === "") {
+                alert("No coupon entered");
+            } else {
+                $.ajax({
+                    url: '../backend/api/check_discount_code.php',
+                    method: 'post',
+                    data: { couponCode: coupon },
+                    success: function (response) {
+                        if (response === '404') {
+                            var textShown = document.getElementById("textShown").innerHTML = "Coupon not valid";
+                            modalContent.style.width = "28%";
+                            modal.style.display = "block";
+                        } else {
+                            var textShown = document.getElementById("textShown").innerHTML = `Coupon valid until ${response}`;
+                            modalContent.style.width = "40%";
+                            modal.style.display = "block";
+                        }
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+    <title>Add Products</title>
+</head>
+
+<body>
+    <div class="tabs-container">
+        <a class="tab" href="#tab-resetDb">Reset DB</a>
+        <a class="tab" href="#tab-addProduct">Add Product</a>
+        <a class="tab" href="#tab-removeProduct">Remove Product</a>
+        <a class="tab" href="#tab-setDiscountCodePolicy">Set Discount Code Policy</a>
+        <a class="tab" href="#tab-computeTransactionDiscount">Compute Transaction Discount</a>
+        <a class="tab" href="#tab-getAssociatedTransactions">Get Transactions Associated with Code</a>
+        <a class="tab" href="#tab-getNewCodes">Get New Codes</a>
+        <a class="tab" href="#tab-viewExpiredDiscountCodes">View Expired Discount Codes</a>
+        <a class="tab" href="#tab-getInterestedCustomers">Get Interested Customers</a>
+        <a class="tab" href="#tab-createTransaction">Create Transaction</a>
+        <a class="tab" href="#tab-createDiscountCode">Create Discount Code</a>
+        <a class="tab" href="#tab-getProducts">Get Products JSON</a>
+        <a class="tab" href="#tab-getTransactions">Get Transactions JSON</a>
+        <a class="tab" href="#tab-getDiscountCodes">Get Discount Codes JSON</a>
+        <span class="tab-slider"></span>
+    </div>
+
+    <section class="et-slide" id="tab-resetDb">
+        <h1>Reset DB</h1>
+        <br>
+        <form action="../../backend/api/reset_db.php" method="post">
+            <input type="submit" value="Reset DB" name="resetDbBtn">
+        </form>
+    </section>
+
+    <section class="et-slide" id="tab-addProduct">
+        <h1>Add Product</h1>
+        <br>
+        <form action="../../backend/api/add_product.php" method="POST">
+            <label for="productName">Name</label><br>
+            <input type="text" name="productName" id="productName"><br>
+            <label for="cost">Cost</label><br>
+            <input type="decimal" name="cost" id="cost"><br>
+            <br>
+            <input type="submit" value="Add product" name="addProductBtn"><br>
+        </form>
+    </section>
+
+    <section class="et-slide" id="tab-removeProduct">
+        <h1>Remove Product</h1>
+        <br>
+        <form action="../../backend/api/remove_product.php" method="POST">
+            <label for="removeProductId">Product to Remove</label><br>
+            <select name="removeProductId" id="removeProductId"></select>
+            <!-- <input type="number" name="removeProductId" id="removeProductId"><br> -->
+            <br>
+            <input type="submit" value="Remove Product" name="removeProductBtn">
+        </form>
+    </section>
+
+    <section class="et-slide" id="tab-createTransaction">
+        <h1>Create Transaction</h1>
+        <br>
+        <form action="../../backend/api/create_transaction.php" method="POST">
+            <label for="productId">Product ID</label><br>
+            <input required type="number" name="productId" id="productId"><br>
+            <label for="customerName">Customer Name</label><br>
+            <input required type="text" name="customerName" id="customerName"><br>
+            <label for="customerEmail">Customer Email</label><br>
+            <input required type="email" name="customerEmail" id="customerEmail"><br>
+            <label for="discountCode">Discount Code</label><br>
+            <input type="number" name="discountCode" id="discountCode"><br>
+            <label for="16digitsCreditCard">Card Number</label><br>
+            <input required type='tel' name="16digitsCreditCard"><br>
+            <label for="ExpirationDate">Expiration Date</label><br>
+            <input required name="ExpirationDate" type="date"><br>
+            <label for="cvc">CVC</label><br>
+            <input required placeholder="CVC" type="tel" name="cvc"><br>
+            <br>
+            <input type="submit" value="Make transaction">
+        </form>
+    </section>
+
+    <section class="et-slide" id="tab-createDiscountCode">
+        <h1>Create Discount Code</h1>
+        <br>
+        <form action="../../backend/api/create_discount_code.php" method="POST">
+            <input type="submit" id="createDiscountCodeBtn" value="Create Discount Code">
+        </form>
+        <h2>Created Discount Code</h2>
+        <div id="createdDiscountCodeDiv">-</div>
+    </section>
+
+    <section class="et-slide" id="tab-getProducts">
+        <h1>Get Products Json</h1>
+        <br>
+        <button id="getProductsBtn">Get products JSON</button><br>
+        <div id="productsJsonDiv"></div>
+    </section>
+
+    <section class="et-slide" id="tab-getTransactions">
+        <h1>Get Transaction JSON</h1>
+        <br>
+        <button id="getTransactionsBtn">Get transactions JSON</button>
+        <div id="transactionsJsonDiv"></div>
+    </section>
+
+    <section class="et-slide" id="tab-getDiscountCodes">
+        <h1>Discount Codes JSON</h1>
+        <br>
+        <button id="getDiscountCodesBtn">Get Discount Codes JSON</button>
+        <div id="discountCodesJsonDiv"></div>
+    </section>
+
+    <section class="et-slide" id="tab-viewExpiredDiscountCodes">
+        <h1>Expired Discount Codes</h1>
+        <ul id="expiredDiscountCodesList">
+
+        </ul>
+    </section>
+
+    <section class="et-slide" id="tab-setDiscountCodePolicy">
+        <h1>Set Discount Code Policy</h1>
+        <br>
+        <form action="../../backend/api/set_discount_policy.php" method="post">
+            <label for="discountId">Discount ID</label>
+            <input type="number" name="discountId" id="discountId">
+            <label for="newPolicy">Discount Policy</label>
+            <select name="newPolicy" id="newPolicy">
+                <option selected value="1PERCENTOFFEACH">1 percent off each</option>
+                <option value="2PERCENTOFFEACH">2 percent off each</option>
+                <option value="3PERCENTOFFEACH">3 percent off each</option>
+                <option value="4PERCENTOFFEACH">4 percent off each</option>
+                <option value="5PERCENTOFFEACH">5 percent off each</option>
+            </select>
+            <input type="submit" id="setDiscountCodePolicyBtn" value="Update discount code policy">
+        </form>
+    </section>
+
+    <section class="et-slide" id="tab-computeTransactionDiscount">
+        <h1>Compute Transaction Discount</h1>
+        <br>
+        <form id="computeTransactionDiscountForm" action="../../backend/api/compute_transaction_discount.php"
+            method="post">
+            <label for="computeTransactionDiscountDiscountId">Discount ID</label>
+            <input required type="number" name="computeTransactionDiscountDiscountId"
+                id="computeTransactionDiscountDiscountId">
+            <input type="submit" id="computeTransactionDiscountBtn" value="Compute Transaction Discount">
+        </form>
+        <h2>Percent Off</h2>
+        <div id="computeTransactionDiscountResponseDiv">
+            -
+        </div>
+    </section>
+
+    <section class="et-slide" id="tab-getNewCodes">
+        <h1>Get New Codes</h1>
+        <br>
+        <form id="getNewCodesForm" action="../../backend/api/getNewCodes.php" method="post">
+            <input type="submit" id="getNewCodesBtn" value="Get New Codes">
+        </form>
+        <h2>New codes (made yesterday or today)</h2>
+        <ul id="newCodesList"></ul>
+    </section>
+
+    <section class="et-slide" id="tab-getInterestedCustomers">
+        <h1>Get Interested Customers</h1>
+        <br>
+        <form id="getInterestedCustomersForm" action="../../backend/api/get_interested_customers.php" method="post">
+            <label for="getInterestedCustomersId">Discount ID</label>
+            <input required type="number" name="getInterestedCustomersId" id="getInterestedCustomersId">
+            <input type="submit" id="getInterestedCustomersBtn" value="Get Interested Customers">
+        </form>
+        <h2>Potentially Interested Customers</h2>
+        <ul id="interestedCustomersList"></ul>
+    </section>
+
+    <section class="et-slide" id="tab-getAssociatedTransactions">
+        <h1>Get Transactions Associated with a Discount Code</h1>
+        <br>
+        <form id="associatedTransactionsForm" action="../../backend/api/get_transactions_associated_with_code.php"
+            method="post">
+            <label for="associatedTransactionsDiscountId">Discount ID</label>
+            <input required type="number" name="associatedTransactionsDiscountId" id="associatedTransactionsDiscountId">
+            <input type="submit" id="associatedTransactionsBtn" value="Get Associated Transactions">
+        </form>
+        <h2>Transactions Associated with Code</h2>
+        <table>
+            <thead>
+                <th>Transaction ID</th>
+                <th>Product Name</th>
+                <th>Discount Code</th>
+                <th>Customer Name</th>
+                <th>Customer Email</th>
+                <th>Card Number</th>
+                <th>Card Expiration Date</th>
+                <th>CVC</th>
+            </thead>
+            <tbody id="associatedTransactionsTable">
+            </tbody>
+        </table>
+    </section>
+
+</body>
+
+</html>
